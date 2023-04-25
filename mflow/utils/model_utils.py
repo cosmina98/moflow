@@ -3,8 +3,10 @@ import numpy as np
 from data.smile_to_graph import GGNNPreprocessor
 from rdkit import Chem
 
-from data import transform_qm9
+from data import transform_qm9,transform_mydatasets
 from data.transform_zinc250k import one_hot_zinc250k, transform_fn_zinc250k
+from data.transform_mydatasets import one_hot, transform_fn
+
 from mflow.models.model import MoFlow as Model
 
 
@@ -27,7 +29,8 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
     if data_name == 'zinc250k':
         out_size = 38
         transform_fn = transform_fn_zinc250k
-    elif data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
+    elif data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
         out_size = 150
         transform_fn = exec('transform_fn_{}'.format(data_name))
 

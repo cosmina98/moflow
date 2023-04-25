@@ -147,7 +147,7 @@ def train():
         b_n_squeeze = 19   # 2
         a_n_node = 150
         a_n_type = len(atomic_num_list)  # 10
-        valid_idx = transform_zinc250k.get_val_ids(args.data_name)
+        valid_idx = transform_mydatasets.get_val_ids(args.data_name)
 
     else:
         raise ValueError('Only support qm9 and zinc250k right now. '

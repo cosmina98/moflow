@@ -17,8 +17,10 @@ from rdkit.Chem import Draw, AllChem
 from rdkit import Chem
 from rdkit import Chem, DataStructs
 
-from data import transform_qm9, transform_zinc250k
+from data import transform_qm9, transform_zinc250k,transform_mydatasets
 from data.transform_zinc250k import zinc250_atomic_num_list, transform_fn_zinc250k
+from data.transform_mydatasets import atomic_num_list, transform_fn
+
 from mflow.models.hyperparams import Hyperparameters
 from mflow.models.utils import check_validity, adj_to_smiles, check_novelty, valid_mol, construct_mol, _to_numpy_array, correct_mol,valid_mol_can_with_seg
 from mflow.utils.model_utils import load_model, get_latent_vec
@@ -391,13 +393,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_dir", type=str, default='./results')
     parser.add_argument("--data_dir", type=str, default='../data')
-    parser.add_argument('--data_name', type=str, default='qm9', choices=['qm9', 'zinc250k','ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca'], help='dataset name')
+    parser.add_argument('--data_name', type=str, default='qm9', choices=['qm9', 'zinc250k','ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg'], help='dataset name')
     # parser.add_argument('--molecule_file', type=str, default='qm9_relgcn_kekulized_ggnp.npz',
     #                     help='path to molecule dataset')
     parser.add_argument("--snapshot-path", "-snapshot", type=str, required=True)
     parser.add_argument("--hyperparams-path", type=str, default='moflow-params.json', required=True)
     parser.add_argument("--gpu", type=int, default=-1)
-    parser.add_argument("--batch-size", type=int, default=100)
+    parser.add_argument("--batch-size", type=int, default=50)
     parser.add_argument('--additive_transformations', type=strtobool, default='false',
                         help='apply only additive coupling layers')
     parser.add_argument('--delta', type=float, default=0.1)
@@ -458,12 +461,13 @@ if __name__ == "__main__":
         # true_data = TransformDataset(true_data, transform_fn_zinc250k)
         valid_idx = transform_zinc250k.get_val_ids()
         molecule_file = 'zinc250k_relgcn_kekulized_ggnp.npz'
-    elif args.data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
-        atomic_num_list = zinc250_atomic_num_list
+    elif args.data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
+        atomic_num_list = atomic_num_list
         # transform_fn = transform_qm9.transform_fn
-        transform_fn = transform_zinc250k.transform_fn_zinc250k
+        transform_fn = transform_mydatasets.transform_fn
         # true_data = TransformDataset(true_data, transform_fn_zinc250k)
-        valid_idx = transform_zinc250k.get_val_ids()
+        valid_idx = transform_mydatasets.get_val_ids(args.data_name)
         molecule_file = '{}_relgcn_kekulized_ggnp.npz'.format(args.data_name)
         
 

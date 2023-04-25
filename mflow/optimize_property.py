@@ -17,8 +17,10 @@ from rdkit.Chem import AllChem, Draw
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from data import transform_qm9, transform_zinc250k
+from data import transform_qm9, transform_zinc250k, transform_mydatasets
 from data.transform_zinc250k import zinc250_atomic_num_list, transform_fn_zinc250k
+from data.transform_mydatasets import atomic_num_list, transform_fn
+
 # from mflow.generate import generate_mols_along_axis
 from mflow.models.hyperparams import Hyperparameters
 from mflow.models.utils import check_validity, construct_mol, adj_to_smiles
@@ -210,8 +212,11 @@ def smile_cvs_to_property(data_name='zinc250k'):
         atomic_num_list = zinc250_atomic_num_list
         filename = '../data/zinc250k.csv'
         colname = 'smiles'
-    elif args.data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
-
+    elif args.data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
+        atomic_num_list = atomic_num_list
+        filename = '../data/{}.csv'.format(args.data_name)
+        colname = 'smiles'
 
     df = pd.read_csv(filename)
     smiles = df[colname].tolist()
@@ -312,7 +317,10 @@ def load_property_csv(data_name, normalize=True):
     elif data_name == 'zinc250k':
         # Total: 249455	 Invalid: 0	 bad_plogp: 0 	 bad_qed: 0
         filename = '../data/zinc250k_property.csv'
-
+    elif args.data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
+        filename = None
+        
     df = pd.read_csv(filename)  # qed, plogp, smile
     if normalize:
         # plogp: # [-62.52, 4.52]
@@ -742,6 +750,16 @@ if __name__ == '__main__':
         valid_idx = transform_zinc250k.get_val_ids()
         molecule_file = 'zinc250k_relgcn_kekulized_ggnp.npz'
         # smile_cvs_to_property('zinc250k')
+    elif args.data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']
+        atomic_num_list = atomic_num_list
+        transform_fn = transform_mydatasets.transform_fn
+        valid_idx = transform_mydatasets.get_val_ids(args.data_name)
+        molecule_file = '{}_relgcn_kekulized_ggnp.npz'.format(args.data_name)
+        # smile_cvs_to_property('zinc250k')
+    
+    
+    
     else:
         raise ValueError("Wrong data_name{}".format(args.data_name))
 

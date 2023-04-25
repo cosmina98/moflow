@@ -1,0 +1,34 @@
+{
+    "a_affine": true,
+    "a_hidden_gnn": [
+        64
+    ],
+    "a_hidden_lin": [
+        128,
+        64
+    ],
+    "a_n_block": 1,
+    "a_n_flow": 27,
+    "a_n_node": 150,
+    "a_n_type": 31,
+    "b_affine": true,
+    "b_conv_lu": 1,
+    "b_hidden_ch": [
+        128,
+        128
+    ],
+    "b_n_block": 1,
+    "b_n_flow": 10,
+    "b_n_squeeze": 19,
+    "b_n_type": 4,
+    "learn_dist": 1,
+    "mask_row_size_list": [
+        1
+    ],
+    "mask_row_stride_list": [
+        1
+    ],
+    "noise_scale": 0.6,
+    "path": "results/ames_train1_po\\moflow-params.json",
+    "seed": 1
+}
