@@ -3,7 +3,17 @@ from rdkit import Chem
 import numpy
 from rdkit import Chem
 from rdkit.Chem import rdmolops
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 
 class GGNNPreprocessor(object):
     """GGNN Preprocessor

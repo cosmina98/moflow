@@ -8,7 +8,17 @@ from data.transform_zinc250k import one_hot_zinc250k, transform_fn_zinc250k
 from data.transform_mydatasets import one_hot, transform_fn
 
 from mflow.models.model import MoFlow as Model
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 
 def load_model(snapshot_path, model_params, debug=False):
     print("loading snapshot: {}".format(snapshot_path))

@@ -33,7 +33,17 @@ from sklearn.linear_model import LinearRegression
 import time
 import functools
 print = functools.partial(print, flush=True)
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 
 class MoFlowProp(nn.Module):
     def __init__(self, model:MoFlow, hidden_size):

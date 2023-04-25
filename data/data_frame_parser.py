@@ -11,7 +11,17 @@ from data.data_loader import NumpyTupleDataset
 
 import traceback
 # Code adapted from chainer_chemistry\dataset\parsers\data_frame_parser.py
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 
 class DataFrameParser(object):
     """data frame parser

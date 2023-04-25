@@ -4,7 +4,17 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Draw
 import re
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 atom_decoder_m = {0: 6, 1: 7, 2: 8, 3: 9}
 bond_decoder_m = {1: Chem.rdchem.BondType.SINGLE, 2: Chem.rdchem.BondType.DOUBLE, 3: Chem.rdchem.BondType.TRIPLE}
 ATOM_VALENCY = {6:4, 7:3, 8:2, 9:1, 15:3, 16:2, 17:1, 35:1, 53:1}
@@ -180,7 +190,9 @@ def check_valency(mol):
 
 
 def correct_mol(x):
-    xsm = Chem.MolToSmiles(x, isomericSmiles=True)
+    try:
+     xsm = Chem.MolToSmiles(x, isomericSmiles=True)
+    except:None
     mol = x
     while True:
         flag, atomid_valence = check_valency(mol)

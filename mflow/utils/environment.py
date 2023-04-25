@@ -14,11 +14,22 @@ import time
 #import matplotlib.pyplot as plt
 import csv
 
+
 from contextlib import contextmanager
 import sys, os
 
 from mflow.utils.sascorer import calculateScore
+def disable_rdkit_logging():
+    """
+    Disables RDKit whiny logging.
+    """
+    import rdkit.RDLogger as rkl
+    logger = rkl.logger()
+    logger.setLevel(rkl.ERROR)
 
+    import rdkit.rdBase as rkrb
+    rkrb.DisableLog('rdApp.error') 
+disable_rdkit_logging()
 # most of the codes here are taken from GCPN's open-source implementation
 '''
 Environment Usage
