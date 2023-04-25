@@ -391,7 +391,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_dir", type=str, default='./results')
     parser.add_argument("--data_dir", type=str, default='../data')
-    parser.add_argument('--data_name', type=str, default='qm9', choices=['qm9', 'zinc250k'], help='dataset name')
+    parser.add_argument('--data_name', type=str, default='qm9', choices=['qm9', 'zinc250k','ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca'], help='dataset name')
     # parser.add_argument('--molecule_file', type=str, default='qm9_relgcn_kekulized_ggnp.npz',
     #                     help='path to molecule dataset')
     parser.add_argument("--snapshot-path", "-snapshot", type=str, required=True)
@@ -458,6 +458,14 @@ if __name__ == "__main__":
         # true_data = TransformDataset(true_data, transform_fn_zinc250k)
         valid_idx = transform_zinc250k.get_val_ids()
         molecule_file = 'zinc250k_relgcn_kekulized_ggnp.npz'
+    elif args.data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
+        atomic_num_list = zinc250_atomic_num_list
+        # transform_fn = transform_qm9.transform_fn
+        transform_fn = transform_zinc250k.transform_fn_zinc250k
+        # true_data = TransformDataset(true_data, transform_fn_zinc250k)
+        valid_idx = transform_zinc250k.get_val_ids()
+        molecule_file = '{}_relgcn_kekulized_ggnp.npz'.format(args.data_name)
+        
 
     batch_size = args.batch_size
     dataset = NumpyTupleDataset.load(os.path.join(args.data_dir, molecule_file), transform=transform_fn)

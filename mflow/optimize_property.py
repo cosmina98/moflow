@@ -210,6 +210,8 @@ def smile_cvs_to_property(data_name='zinc250k'):
         atomic_num_list = zinc250_atomic_num_list
         filename = '../data/zinc250k.csv'
         colname = 'smiles'
+    elif args.data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
+
 
     df = pd.read_csv(filename)
     smiles = df[colname].tolist()

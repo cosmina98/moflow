@@ -15,7 +15,9 @@ from data.smile_to_graph import GGNNPreprocessor
 def parse():
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('--data_name', type=str, default='qm9',
-                        choices=['qm9', 'zinc250k'],
+                        choices=['qm9', 'zinc250k','ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg'
+],
                         help='dataset to be downloaded')
     parser.add_argument('--data_type', type=str, default='relgcn',
                         choices=['gcn', 'relgcn'],)
@@ -29,10 +31,14 @@ data_name = args.data_name
 data_type = args.data_type
 print('args', vars(args))
 
-if data_name == 'qm9':
+if data_name =='qm9':
     max_atoms = 9
 elif data_name == 'zinc250k':
     max_atoms = 38
+elif  data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg'
+]:
+    max_atoms = 150
 else:
     raise ValueError("[ERROR] Unexpected value data_name={}".format(data_name))
 
@@ -65,6 +71,20 @@ elif data_name == 'zinc250k':
     labels = ['logP', 'qed', 'SAS']
     parser = DataFrameParser(preprocessor, labels=labels, smiles_col='smiles')
     result = parser.parse(df_zinc250k, return_smiles=True)
+    dataset = result['dataset']
+    smiles = result['smiles']
+
+elif data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
+                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
+    print('Preprocessing smiles data')
+    # dataset = datasets.get_zinc250k(preprocessor)
+    df = pd.read_csv('{}.csv'.format(data_name), index_col=0)
+    # Caution: Not reasonable but used in used in chain_chemistry\datasets\zinc.py:
+    # 'smiles' column contains '\n', need to remove it.
+    # Here we do not remove \n, because it represents atom N with single bond
+    labels = ['logP', 'qed', 'SAS']
+    parser = DataFrameParser(preprocessor, labels=labels, smiles_col='smiles')
+    result = parser.parse(df, return_smiles=True)
     dataset = result['dataset']
     smiles = result['smiles']
 else:
