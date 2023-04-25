@@ -27,6 +27,9 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
     if data_name == 'zinc250k':
         out_size = 38
         transform_fn = transform_fn_zinc250k
+    elif data_name in ['ames', 'bbb_martins', 'cyp1a2_veith', 'cyp2c19_veith','herg_karim','lipophilicity_astrazeneca']:
+        out_size = 150
+        transform_fn = exec('transform_fn_{}'.format(data_name))
 
     preprocessor = GGNNPreprocessor(out_size=out_size, kekulize=True)
     canonical_smiles, mol = preprocessor.prepare_smiles_and_mol(Chem.MolFromSmiles(mol_smiles)) # newly added crucial important!!!
