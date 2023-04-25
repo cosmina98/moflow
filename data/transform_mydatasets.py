@@ -3,11 +3,11 @@ import json
 import numpy as np
 
 atomic_num_list = [1,3,5,6, 7, 8, 9, 11,14,15, 16, 17,19,20,24,25,26,28,29,30, 33,34,35,44, 50,51,53,78,79,80, 0]  # 0 is for virtual node.
-max_atoms = 150
+max_atoms = 152
 n_bonds = 4
 
 
-def one_hot(data, out_size=150):
+def one_hot(data, out_size=152):
     num_max_id = len(atomic_num_list)
     assert data.shape[0] == out_size
     b = np.zeros((out_size, num_max_id), dtype=np.float32)

@@ -31,7 +31,7 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
         transform_fn = transform_fn_zinc250k
     elif data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
                    'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
-        out_size = 150
+        out_size = 152
         transform_fn = exec('transform_fn_{}'.format(data_name))
 
     preprocessor = GGNNPreprocessor(out_size=out_size, kekulize=True)

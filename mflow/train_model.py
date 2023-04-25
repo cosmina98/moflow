@@ -145,8 +145,8 @@ def train():
         # gnn_channels = {'gcn': [16, 128], 'hidden': [256, 64]}
         b_n_type = 4
         b_n_squeeze = 19   # 2
-        a_n_node = 150
-        a_n_type = len(atomic_num_list)  # 10
+        a_n_node = 152
+        a_n_type = len(atomic_num_list)  # 31
         valid_idx = transform_mydatasets.get_val_ids(args.data_name)
 
     else:
