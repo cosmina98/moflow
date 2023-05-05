@@ -473,7 +473,7 @@ if __name__ == "__main__":
         molecule_file = 'zinc250k_relgcn_kekulized_ggnp.npz'
     elif args.data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
                    'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
-        atomic_num_list = atomic_num_list
+        atomic_num_list = atomic_num_list       
         # transform_fn = transform_qm9.transform_fn
         transform_fn = transform_mydatasets.transform_fn
         # true_data = TransformDataset(true_data, transform_fn_zinc250k)

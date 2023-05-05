@@ -37,8 +37,32 @@ elif data_name == 'zinc250k':
     max_atoms = 38
 elif  data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
                    'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg'
-]:
-    max_atoms = 152
+]: 
+      if data_name=='ames_train1_pos':
+           max_atoms = 57            
+      elif data_name=='ames_train1_neg':
+        max_atoms = 57
+      elif data_name=='bbb_martins_train1_pos':
+        max_atoms = 76
+      elif data_name=='bbb_martins_train1_neg':
+        max_atoms = 133
+      elif data_name=='cyp1a2_veith_train1_pos':
+        max_atoms = 133
+      elif data_name=='cyp1a2_veith_train1_neg':
+        max_atoms = 133
+      elif data_name=='cyp2c19_veith_train1_pos':
+        max_atoms = 133
+      elif data_name=='cyp2c19_veith_train1_neg':
+        max_atoms = 133
+      elif data_name=='herg_karim_train1_pos':
+        max_atoms = 57
+      elif data_name=='herg_karim_train1_neg':
+        max_atoms = 57
+      elif data_name=='lipophilicity_astrazenca_train1_pos':
+        max_atoms = 57
+      elif data_name=='lipophilicity_astrazenca_train1_neg':
+        max_atoms = 133
+      else: max_atoms = 152
 else:
     raise ValueError("[ERROR] Unexpected value data_name={}".format(data_name))
 

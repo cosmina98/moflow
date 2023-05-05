@@ -42,6 +42,30 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
     elif data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
                    'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
         out_size = 152
+        if data_name=='ames_train1_pos':
+           out_size = 57
+        elif data_name=='ames_train1_neg':
+           out_size = 57
+        elif data_name=='bbb_martins_train1_pos':
+           out_size = 76
+        elif data_name=='bbb_martins_train1_neg':
+           out_size = 133
+        elif data_name=='cyp1a2_veith_train1_pos':
+           out_size = 133
+        elif data_name=='cyp1a2_veith_train1_neg':
+           out_size = 133
+        elif data_name=='cyp2c19_veith_train1_pos':
+           out_size = 133
+        elif data_name=='cyp2c19_veith_train1_neg':
+           out_size = 133
+        elif data_name=='herg_karim_train1_pos':
+           out_size = 57
+        elif data_name=='herg_karim_train1_neg':
+           out_size = 57
+        elif data_name=='lipophilicity_astrazenca_train1_pos':
+           out_size = 57
+        elif data_name=='lipophilicity_astrazenca_train1_neg':
+           out_size = 133
         transform_fn = exec('transform_fn_{}'.format(data_name))
 
     preprocessor = GGNNPreprocessor(out_size=out_size, kekulize=True)

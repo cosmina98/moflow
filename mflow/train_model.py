@@ -140,12 +140,13 @@ def train():
         from data import transform_mydatasets
         data_file = '{}_relgcn_kekulized_ggnp.npz'.format(args.data_name)
         transform_fn = transform_mydatasets.transform_fn
+        a_n_node = transform_mydatasets.max_atoms
         atomic_num_list = transform_mydatasets.atomic_num_list  # [1,3,5,6, 7, 8, 9, 11,14,15, 16, 17,19,20,24,25,26,28,29,30, 33,34,35,44, 50,51,53,78,79,80, 0]
-        # mlp_channels = [1024, 512]
+    
+          # mlp_channels = [1024, 512]
         # gnn_channels = {'gcn': [16, 128], 'hidden': [256, 64]}
         b_n_type = 4
         b_n_squeeze = 19   # 2
-        a_n_node = 152
         a_n_type = len(atomic_num_list)  # 31
         valid_idx = transform_mydatasets.get_val_ids(args.data_name)
 
