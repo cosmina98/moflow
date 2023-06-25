@@ -5,7 +5,7 @@ from rdkit import Chem
 
 from data import transform_qm9,transform_mydatasets
 from data.transform_zinc250k import one_hot_zinc250k, transform_fn_zinc250k
-from data.transform_mydatasets import one_hot, transform_fn
+from data.transform_mydatasets import one_hot, transform_fn,get_max_atoms
 
 from mflow.models.model import MoFlow as Model
 def disable_rdkit_logging():
@@ -39,33 +39,9 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
     if data_name == 'zinc250k':
         out_size = 38
         transform_fn = transform_fn_zinc250k
-    elif data_name in ['ames_train1_pos', 'ames_train1_neg','bbb_martins_train1_pos', 'bbb_martins_train1_neg','cyp1a2_veith_train1_pos','cyp1a2_veith_train1_neg', \
-                   'cyp2c19_veith_train1_pos','cyp2c19_veith_train1_neg','herg_karim_train1_pos','herg_karim_train1_neg','lipophilicity_astrazeneca_train1_pos','lipophilicity_astrazeneca_train1_neg']:
-        out_size = 152
-        if data_name=='ames_train1_pos':
-           out_size = 57
-        elif data_name=='ames_train1_neg':
-           out_size = 57
-        elif data_name=='bbb_martins_train1_pos':
-           out_size = 76
-        elif data_name=='bbb_martins_train1_neg':
-           out_size = 133
-        elif data_name=='cyp1a2_veith_train1_pos':
-           out_size = 133
-        elif data_name=='cyp1a2_veith_train1_neg':
-           out_size = 133
-        elif data_name=='cyp2c19_veith_train1_pos':
-           out_size = 133
-        elif data_name=='cyp2c19_veith_train1_neg':
-           out_size = 133
-        elif data_name=='herg_karim_train1_pos':
-           out_size = 57
-        elif data_name=='herg_karim_train1_neg':
-           out_size = 57
-        elif data_name=='lipophilicity_astrazenca_train1_pos':
-           out_size = 57
-        elif data_name=='lipophilicity_astrazenca_train1_neg':
-           out_size = 133
+    elif  data_name in [ 'ames_25_train1_neg','ames_25_train1_pos','ames_33_train1_neg','ames_33_train1_pos','ames_40_train1_neg','ames_40_train1_pos','ames_50_train1_neg','ames_50_train1_pos','bbb_martins_25_train1_neg','bbb_martins_25_train1_pos','bbb_martins_33_train1_neg','bbb_martins_33_train1_pos','bbb_martins_50_train1_neg','bbb_martins_50_train1_pos','bbb_martins_40_train1_neg','bbb_martins_40_train1_pos','cyp1a2_veith_25_train1_neg','cyp1a2_veith_25_train1_pos','cyp1a2_veith_33_train1_neg','cyp1a2_veith_33_train1_pos','cyp1a2_veith_50_train1_neg','cyp1a2_veith_50_train1_pos','cyp1a2_veith_40_train1_neg','cyp1a2_veith_40_train1_pos','cyp2c19_veith_25_train1_neg','cyp2c19_veith_25_train1_pos','cyp2c19_veith_33_train1_neg','cyp2c19_veith_33_train1_pos','cyp2c19_veith_50_train1_neg','cyp2c19_veith_50_train1_pos','cyp2c19_veith_40_train1_neg','cyp2c19_veith_40_train1_pos','herg_karim_25_train1_neg','herg_karim_25_train1_pos','herg_karim_33_train1_neg','herg_karim_33_train1_pos','herg_karim_50_train1_neg','herg_karim_50_train1_pos','herg_karim_40_train1_neg','herg_karim_40_train1_pos','lipophilicity_astrazeneca_25_train1_neg','lipophilicity_astrazeneca_25_train1_pos','lipophilicity_astrazeneca_33_train1_neg','lipophilicity_astrazeneca_33_train1_pos','lipophilicity_astrazeneca_50_train1_neg','lipophilicity_astrazeneca_50_train1_pos','lipophilicity_astrazeneca_40_train1_neg','lipophilicity_astrazeneca_40_train1_pos']: 
+
+        out_size = get_max_atoms(data_name)
         transform_fn = exec('transform_fn_{}'.format(data_name))
 
     preprocessor = GGNNPreprocessor(out_size=out_size, kekulize=True)
