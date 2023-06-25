@@ -47,7 +47,7 @@ def smiles_to_adj(mol_smiles, data_name='qm9'):
     preprocessor = GGNNPreprocessor(out_size=out_size, kekulize=True)
     canonical_smiles, mol = preprocessor.prepare_smiles_and_mol(Chem.MolFromSmiles(mol_smiles)) # newly added crucial important!!!
     atoms, adj = preprocessor.get_input_features(mol)
-    atoms, adj, _ = transform_fn((atoms, adj, None))
+    atoms, adj, _ = transform_fn((atoms, adj, None),out_size=out_size)
     adj = np.expand_dims(adj, axis=0)
     atoms = np.expand_dims(atoms, axis=0)
 

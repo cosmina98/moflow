@@ -218,11 +218,11 @@ def get_max_atoms(data_name):
     return max_atoms
 
 
-def transform_fn(data):
+def transform_fn(data,out_size=max_atoms):
     node, adj, label = data
     # convert to one-hot vector
     # node = one_hot(node).astype(np.float32)
-    node = one_hot(node).astype(np.float32)
+    node = one_hot(node,out_size=out_size).astype(np.float32)
     # single, double, triple and no-bond. Note that last channel axis is not connected instead of aromatic bond.
     adj = np.concatenate([adj[:3], 1 - np.sum(adj[:3], axis=0, keepdims=True)],
                          axis=0).astype(np.float32)
